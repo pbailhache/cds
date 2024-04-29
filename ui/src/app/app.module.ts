@@ -1,5 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, APP_INITIALIZER, NgModule } from '@angular/core';
+import { faroInitializer } from 'app/faro-initializer';
+import { GlobalErrorHandler } from './global-error-handler';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -75,11 +77,21 @@ export class CDSStorageEngine implements StorageEngine {
         ServicesModule,
     ],
     providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: faroInitializer,
+            deps: [], // <-- Add your dependencies here
+            multi: true,
+        },
         AppService,
         EventService,
         { provide: ErrorHandler, useFactory: errorFactory },
         { provide: LOCALE_ID, useValue: 'en' },
-        { provide: STORAGE_ENGINE, useClass: CDSStorageEngine }
+        { provide: STORAGE_ENGINE, useClass: CDSStorageEngine },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler,
+        },
     ],
     bootstrap: [AppComponent]
 })

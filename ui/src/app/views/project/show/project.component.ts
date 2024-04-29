@@ -17,6 +17,8 @@ import { filter, finalize } from 'rxjs/operators';
 import { FeatureNames, FeatureService } from 'app/service/feature/feature.service';
 import { AddFeatureResult, FeaturePayload } from 'app/store/feature.action';
 
+
+
 @Component({
     selector: 'app-project-show',
     templateUrl: './project.html',
@@ -77,7 +79,9 @@ export class ProjectShowComponent implements OnInit, OnDestroy, AfterViewInit {
             });
     }
 
-    ngOnDestroy(): void { } // Should be set to use @AutoUnsubscribe with AOT
+    ngOnDestroy(): void {
+
+    } // Should be set to use @AutoUnsubscribe with AOT
 
     ngOnInit() {
         this.initTabs();

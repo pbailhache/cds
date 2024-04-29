@@ -25,6 +25,7 @@ import { CodeEditorConfig } from "ng-zorro-antd/core/config/config";
 import { PreferencesState } from './store/preferences.state';
 import { Editor } from './model/editor.model';
 import { WebSocketSubject } from 'rxjs/webSocket';
+import { faro } from '@grafana/faro-web-sdk';
 
 declare const monaco: any;
 
@@ -114,6 +115,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.eventsRouteSubscription = this._router.events.subscribe(e => {
             if (e instanceof NavigationStart) {
                 this.hideNavBar = e.url.startsWith('/auth');
+            }
+
+            // route_change
+            if (e instanceof NavigationEnd) {
+                faro.api.pushEvent(
+                    'route_change',
+                    {
+                      'from': e.url,
+                      'to': e.urlAfterRedirects
+                    },
+                    'routing', // domain info ? useful to segment event between module (example -> login event, checkout event, etc...)
+                    // here you could insert spanContext to activate tracing
+                );
             }
         });
 

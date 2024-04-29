@@ -8,6 +8,8 @@ import { Store } from '@ngxs/store';
 import { PreferencesState } from 'app/store/preferences.state';
 import * as actionPreferences from "app/store/preferences.action";
 import { FeatureNames, FeatureService } from 'app/service/feature/feature.service';
+import { trace, context } from '@opentelemetry/api';
+// const api = import("@opentelemetry/api");
 
 @Component({
     selector: 'app-project',
@@ -59,7 +61,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void { } // Should be set to use @AutoUnsubscribe with AOT
+    ngOnDestroy(): void {
+
+    } // Should be set to use @AutoUnsubscribe with AOT
 
     clickCloseBanner(): void {
         this._store.dispatch(new actionPreferences.SaveMessageState({

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"contrib.go.opencensus.io/exporter/prometheus"
-	"go.opencensus.io/plugin/ochttp/propagation/b3"
+	"go.opencensus.io/plugin/ochttp/propagation/tracecontext"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace/propagation"
 )
@@ -20,7 +20,7 @@ const (
 )
 
 // DefaultFormat used by observability as: observability.DefaultFormat.SpanContextToRequest
-var DefaultFormat propagation.HTTPFormat = &b3.HTTPFormat{}
+var DefaultFormat propagation.HTTPFormat = &tracecontext.HTTPFormat{}
 
 // Configuration is the global tracing configuration
 type Configuration struct {
@@ -99,7 +99,7 @@ const (
 	ContextMainSpan
 )
 
-//Options is the options struct for a new tracing span
+// Options is the options struct for a new tracing span
 type Options struct {
 	Init     bool
 	Name     string

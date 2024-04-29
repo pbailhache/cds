@@ -12,6 +12,8 @@ import * as ActionApplication from './applications.action';
 import { ClearCacheApplication } from './applications.action';
 import * as ActionProject from './project.action';
 
+import { context, trace } from '@opentelemetry/api';
+
 export class ApplicationStateModel {
     public application: Application;
     public editApplication: Application;
@@ -57,6 +59,8 @@ export class ApplicationsState {
 
     @Action(ActionApplication.AddApplication)
     add(ctx: StateContext<ApplicationStateModel>, action: ActionApplication.AddApplication) {
+        let currentContext = context;
+        
         return this._http.post<Application>(
             `/project/${action.payload.projectKey}/applications`,
             action.payload.application
